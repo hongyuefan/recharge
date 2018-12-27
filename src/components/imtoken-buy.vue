@@ -1,6 +1,6 @@
 <template>
     <div id="meta">
-        <Card >
+        <Card v-if="showToken">
                
                 <div style="text-align:center;padding: 4%;">
                     <p slot="title" >
@@ -25,10 +25,11 @@
                             </Input>
                         </FormItem>
                      </Form>
-                     <Poptip trigger="hover" content=" 请确保充值地址、金额与实际信息相符！ " placement="right"><Button  type="primary"  long @click="onBuy" :loading="btnLoading">确定</Button></Poptip>
+                     <Poptip trigger="hover" content=" 请确保充值地址、金额与实际信息相符！ " placement="right"><Button  type="primary"  long @click="onRecharge" :loading="btnLoading">确定</Button></Poptip>
                 </div>
 
         </Card>
+        <show-message v-if="showMessage"></show-message>
     </div>
 </template>
 
@@ -41,12 +42,17 @@
 </style>
 
 <script>
+
+import Message from '../components/show-message'
+
 export default {
     data () {
             return {
                 username:"",
                 amount:0,
-                append:0
+                append:0,
+                showMessage:false,
+                showToken:true,
             }
         },
     methods:{
@@ -61,9 +67,17 @@ export default {
                  this.username = unescape(r[2]); 
             } 
         },
+        onRecharge:function()
+        {
+            this.showMessage = true;
+            this.showToken = false;
+        }
     },
     mounted() {
            this.GetQueryString("username");
+    },
+    components: {
+            "show-message":Message,
     }
 }
 </script>

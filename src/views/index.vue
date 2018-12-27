@@ -214,7 +214,7 @@ export default {
             'show-price': PrinceShow,
             'game-help':GameHelp,
             'meta-buy':MetaBuy,
-            "imtoken-buy":ImtokenBuy,
+            "imtoken-buy":ImtokenBuy
          }
     }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div id="meta">
-        <Card >
+        <Card v-if="showMeta">
                
                 <div style="text-align:center;padding: 4%;">
                     <p slot="title" >
@@ -28,6 +28,8 @@
                 </div>
 
         </Card>
+
+        <show-message v-if="showMessage"></show-message>
     </div>
 </template>
 
@@ -40,6 +42,9 @@
 </style>
 
 <script>
+
+import Message from '../components/show-message'
+
 export default {
     data () {
             return {
@@ -49,7 +54,9 @@ export default {
                 append:0,
                 timer:null,
                 btnLoading:false,
-                strBtn:"充值"
+                strBtn:"充值",
+                showMessage:false,
+                showMeta:true,
             }
         },
     methods:{
@@ -96,6 +103,8 @@ export default {
                      this.showNotice(true,"充值成功,交易哈希"+res);
                      this.btnLoading = false;
                      this.strBtn = "继续充值";
+                     this.showMeta =false;
+                     this.showMessage =true;
                      return;
                  }
              });
@@ -112,6 +121,9 @@ export default {
     },
     destroyed(){
             clearInterval(this.timer)
+    },
+    components: {
+            "show-message":Message,
     }
 }
 </script>

@@ -26,7 +26,7 @@ import {mapState} from 'vuex'
 export default {
         data () {
             return {
-                 ethPrice:200,
+                 ethPrice:"-",
                  timer:null
             }
         },
