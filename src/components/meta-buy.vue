@@ -49,6 +49,7 @@ export default {
     data () {
             return {
                 username:"",
+                userid:0,
                 address:"",
                 amount:0,
                 append:0,
@@ -57,6 +58,7 @@ export default {
                 strBtn:"充值",
                 showMessage:false,
                 showMeta:true,
+                hash:"",
             }
         },
     methods:{
@@ -70,6 +72,14 @@ export default {
             if(r!=null){
                  this.username = unescape(r[2]); 
             } 
+        },
+        GetQueryId:function(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null){
+                 this.userid = unescape(r[2]); 
+            }
         },
         showNotice: function(ok,dsc){
             if (ok){
@@ -93,18 +103,45 @@ export default {
                 from: this.$store.state.web3.coinbase,
                 to: this.$store.state.masterAddress,
              },(err,res) => {
-                 console.log(err,res);
                  if (err) {
                      this.showNotice(false,err);
                      this.btnLoading = false;
                      this.strBtn = "继续充值";
                      return;
                  }else{
-                     this.showNotice(true,"充值成功,交易哈希"+res);
-                     this.btnLoading = false;
-                     this.strBtn = "继续充值";
-                     this.showMeta =false;
-                     this.showMessage =true;
+
+                    this.hash = res;
+
+                    var url = "/api/v1/recharge/add/record"
+                    this.$axios({
+                    method:"post",
+                    url:url,
+                    data:{
+                        type:1,
+                        username:this.username,
+                        userid:parseInt(this.userid),
+                        amount:this.amount.toString()   ,
+                        hash:this.hash,
+                        address:this.$store.state.web3.coinbase,
+                        time:parseInt(new Date().getTime()/1000)
+                    }
+                    }).then(
+                    (res)=>{
+                        if (res.data.isSuccess == true) {
+                             this.showNotice(true,"充值成功,交易哈希:"+this.hash);
+                             this.btnLoading = false;
+                             this.strBtn = "继续充值";
+                             this.showMeta =false;
+                             this.showMessage =true;
+                        }else{
+                            this.showNotice(false,res.message);
+                            this.btnLoading = false;
+                            this.strBtn = "继续充值";
+                        }
+                     }
+                    )
+
+                    
                      return;
                  }
              });
@@ -114,6 +151,8 @@ export default {
     mounted(){
 
         this.GetQueryString("username");
+
+        this.GetQueryId("userid");
 
         this.timer = setInterval( () => {
  　　　　　　    this.address = this.$store.state.web3.coinbase;

@@ -7,7 +7,12 @@ import App from './app.vue';
 import 'iview/dist/styles/iview.css';
 import { store } from './store/';
 import VueResource from 'vue-resource';
+import axios from 'axios';
+import qs from 'qs';
 
+
+Vue.prototype.$qs = qs;
+Vue.prototype.$axios = axios;
 Vue.use(VueRouter);
 Vue.use(iView);
 Vue.use(VueResource);

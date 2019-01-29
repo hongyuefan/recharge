@@ -46,10 +46,10 @@
     letter-spacing: -4px; 
     word-spacing: -4px; 
     }
-     @font-face{
+     /* @font-face{
 		font-family: katong;     
 		src:url('../theme/katong.ttf');  
-    }
+    } */
 
     div{
         font-family: katong;  
@@ -78,27 +78,18 @@
                 <Col span="8" >
                      <div class="layout-nav">
                         <MenuItem v-if="language==1" name="imtoken">
-                            ImToken钱包
+                            手机钱包
                             <Icon type="md-cash"></Icon>
                         </MenuItem>
                         <MenuItem v-if="language==2" name="imtoken">
-                            ImToken&nbsp;Wallet
+                            Mobile&nbsp;Wallet
                             <Icon type="md-cash"></Icon>
                         </MenuItem>
                     </div>
                 </Col>
 
             <Col span="4" >
-            <div class="layout-nav">
-                <MenuItem v-if="language==1" name="contract">
-                     合约源码
-                     <Icon type="ios-navigate"></Icon>
-                </MenuItem>
-                <MenuItem v-if="language==2" name="contract">
-                     Contract Source
-                     <Icon type="ios-navigate"></Icon>
-                </MenuItem>
-               
+            <div class="layout-nav"> 
                 <MenuItem v-if="language==1" name="help">                
                      帮助
                      
@@ -199,9 +190,6 @@ export default {
                     case "imtoken":
                         this.showImtoken = true;
                         this.showMetamask = false;
-                        break;
-                    case "contract":
-                        window.location.href="https://etherscan.io/address/0xd4276563d170073482f65b305559e4b73f7a089f#code";
                         break;
                     case "help":
                         this.helpShow = true;
